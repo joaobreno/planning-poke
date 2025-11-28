@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sala - Planning Poke</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body class="page-room">
+    <div class="app-background"></div>
+
+    <header class="app-header room-header glass-card">
+      <div class="room-title">
+        <a href="/" class="logo small" aria-label="Voltar à página inicial">
+          <span class="logo-mark">PP</span>
+        </a>
+        <div>
+          <h1 id="room-name">Sala</h1>
+          <p class="room-slug">
+            ID: <span id="room-slug">...</span>
+            <button id="copy-room-link" class="btn btn-ghost btn-xs">
+              Copiar link
+            </button>
+            <button id="copy-room-code" class="btn btn-ghost btn-xs">
+              Copiar código
+            </button>
+          </p>
+        </div>
+      </div>
+      <div class="room-actions">
+        <a href="/" class="btn btn-ghost">Voltar</a>
+        <button id="presentation-toggle" class="btn btn-ghost">
+          Modo apresentação
+        </button>
+        <span id="connection-status" class="connection-status">
+          Conectando...
+        </span>
+      </div>
+    </header>
+
+    <main class="room-layout">
+      <aside class="room-sidebar glass-card">
+        <div class="profile-section">
+          <h2 id="profile-toggle" class="profile-toggle" data-collapsed="true">
+            Seu perfil
+          </h2>
+          <div id="profile-content" class="profile-content collapsed">
+            <form id="user-form" class="form">
+              <div class="form-group">
+                <label for="user-name">Nome</label>
+                <input
+                  type="text"
+                  id="user-name"
+                  placeholder="Seu nome ou apelido"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="user-avatar">Avatar (emoji)</label>
+                <!-- input escondido apenas para armazenar o valor -->
+                <input
+                  type="hidden"
+                  id="user-avatar"
+                  maxlength="4"
+                />
+                <div class="emoji-picker">
+                  <button type="button" class="emoji-option" data-emoji="😎">😎</button>
+                  <button type="button" class="emoji-option" data-emoji="🤓">🤓</button>
+                  <button type="button" class="emoji-option" data-emoji="🚀">🚀</button>
+                  <button type="button" class="emoji-option" data-emoji="🧠">🧠</button>
+                  <button type="button" class="emoji-option" data-emoji="🔥">🔥</button>
+                  <button type="button" class="emoji-option" data-emoji="🦊">🦊</button>
+                  <button type="button" class="emoji-option" data-emoji="🐼">🐼</button>
+                  <button type="button" class="emoji-option" data-emoji="🦄">🦄</button>
+                  <button type="button" class="emoji-option" data-emoji="🐱">🐱</button>
+                  <button type="button" class="emoji-option" data-emoji="🐧">🐧</button>
+                  <button type="button" class="emoji-option" data-emoji="😀">😀</button>
+                  <button type="button" class="emoji-option" data-emoji="😁">😁</button>
+                  <button type="button" class="emoji-option" data-emoji="😅">😅</button>
+                  <button type="button" class="emoji-option" data-emoji="😇">😇</button>
+                  <button type="button" class="emoji-option" data-emoji="😍">😍</button>
+                  <button type="button" class="emoji-option" data-emoji="🤠">🤠</button>
+                  <button type="button" class="emoji-option" data-emoji="🤖">🤖</button>
+                  <button type="button" class="emoji-option" data-emoji="👾">👾</button>
+                  <button type="button" class="emoji-option" data-emoji="🐶">🐶</button>
+                  <button type="button" class="emoji-option" data-emoji="🐯">🐯</button>
+                  <button type="button" class="emoji-option" data-emoji="🐸">🐸</button>
+                  <button type="button" class="emoji-option" data-emoji="🐵">🐵</button>
+                  <button type="button" class="emoji-option" data-emoji="🐢">🐢</button>
+                  <button type="button" class="emoji-option" data-emoji="🐙">🐙</button>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-secondary full-width">
+                Salvar dados
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <h2>Participantes</h2>
+        <p class="participants-helper">
+          <span id="all-votes-helper-text">
+            <!-- Aqui deve ter um alerta em verde caso todos os participantes tenham votado. -->
+          </span>
+        </p>
+        <ul id="participants-list" class="participants-list"></ul>
+      </aside>
+
+      <section class="room-main glass-card">
+        <div class="cards-header">
+          <h2>Cartas de estimativa</h2>
+          <p class="helper-text">
+            Clique em uma carta para votar. Os votos são ocultos até serem
+            revelados.
+          </p>
+        </div>
+
+        <div id="cards-container" class="cards-grid">
+          <!-- Cartas geradas dinamicamente em room.js -->
+        </div>
+        <p id="current-vote-label" class="current-vote-label hidden">
+          Seu voto atual: <span id="current-vote-value">-</span>
+        </p>
+
+        <div class="room-controls">
+          <button id="reveal-button" class="btn btn-primary">
+            Revelar votos
+          </button>
+          <button id="reset-button" class="btn btn-danger">
+            Reset
+          </button>
+        </div>
+
+        <section id="stats-section" class="stats glass-card">
+          <h3>Estatísticas</h3>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <span class="stat-label">Total de votos</span>
+              <span id="stat-total-votes" class="stat-value">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Valores únicos</span>
+              <span id="stat-unique-values" class="stat-value">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Média</span>
+              <span id="stat-average" class="stat-value">-</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="report-section" class="stats glass-card">
+          <h3>Relatório de votos</h3>
+          <div id="report-list" class="report-list">
+            <!-- Preenchido dinamicamente em room.js -->
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <div id="access-code-modal" class="modal hidden">
+      <div class="modal-content glass-card">
+        <h2>Sala privada</h2>
+        <p>Esta sala é privada. Informe o código de acesso para entrar.</p>
+        <form id="access-code-form" class="form">
+          <div class="form-group">
+            <label for="access-code-input">Código de acesso</label>
+            <input
+              type="password"
+              id="access-code-input"
+              autocomplete="off"
+              required
+            />
+          </div>
+          <div class="modal-actions">
+            <button type="submit" class="btn btn-primary">Entrar</button>
+          </div>
+          <div id="access-code-error" class="error-message hidden"></div>
+        </form>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="/js/room.js"></script>
+  </body>
+  </html>
+
+

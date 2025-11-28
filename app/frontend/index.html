@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Planning Poke - Planning Poker Online</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body class="page-home">
+    <div class="app-background"></div>
+    <header class="app-header">
+      <div class="logo">
+        <span class="logo-mark">PP</span>
+        <div class="logo-text">
+          <h1>Planning Poke</h1>
+          <p>Planning Poker simples, rápido e colaborativo</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <section class="card glass-card">
+        <h2>Criar nova sala</h2>
+        <p class="card-subtitle">
+          Crie uma sala para o seu time estimar histórias em tempo real.
+        </p>
+        <form id="create-room-form" class="form">
+          <div class="form-group">
+            <label for="room-name">Nome da sala</label>
+            <input
+              type="text"
+              id="room-name"
+              name="roomName"
+              placeholder="Ex.: Time A, Squad Phoenix..."
+              required
+            />
+          </div>
+
+          <div class="form-row">
+            <label class="switch">
+              <input type="checkbox" id="room-private" />
+              <span class="slider"></span>
+              <span class="switch-label">Sala privada</span>
+            </label>
+          </div>
+
+          <div class="form-group hidden" id="access-code-group">
+            <label for="room-access-code">Código de acesso</label>
+            <input
+              type="text"
+              id="room-access-code"
+              placeholder="Defina um código para proteger a sala"
+              maxlength="32"
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary full-width">
+            Criar sala
+          </button>
+
+          <p class="helper-text">
+            Após criar, você receberá um link único para compartilhar com o
+            time.
+          </p>
+          <div id="create-room-error" class="error-message hidden"></div>
+        </form>
+      </section>
+
+      <section class="card glass-card">
+        <h2>Entrar em uma sala</h2>
+        <p class="card-subtitle">
+          Já recebeu um link? Você também pode entrar informando o código da
+          sala.
+        </p>
+        <form id="join-room-form" class="form form-inline">
+          <div class="form-group flex-1">
+            <label for="join-slug">ID da sala (slug)</label>
+            <input
+              type="text"
+              id="join-slug"
+              placeholder="Ex.: time-a-1a2b"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-secondary">
+            Entrar
+          </button>
+        </form>
+        <p class="helper-text">
+          Dica: o ID é a parte final do link, após
+          <code>/room/</code>.
+        </p>
+        <div id="join-room-error" class="error-message hidden"></div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <span>Feito para estimativas ágeis e colaborativas.</span>
+    </footer>
+
+    <script src="/js/main.js"></script>
+  </body>
+  </html>
+
+

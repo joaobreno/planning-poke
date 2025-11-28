@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  planning-poke:
+    build: .
+    container_name: planning-poke
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+    volumes:
+      - ./app/backend/data/rooms:/usr/src/app/app/backend/data/rooms
+    restart: unless-stopped
+
+

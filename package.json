@@ -1,0 +1,24 @@
+{
+  "name": "planning-poke",
+  "version": "1.0.0",
+  "description": "Aplicação de Planning Poker em tempo real com Node.js, WebSocket e frontend vanilla.",
+  "main": "app/backend/server.js",
+  "scripts": {
+    "start": "node app/backend/server.js"
+  },
+  "keywords": [
+    "planning-poker",
+    "scrum",
+    "websocket",
+    "node",
+    "express"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "ws": "^8.17.0"
+  }
+}
+
+
