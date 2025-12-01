@@ -1,0 +1,54 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  IMAGE_NAME: registry.fpf.br/nets/experimentarions/planning-poke
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+
+build-and-push:
+  stage: build
+  image: docker:24-dind
+  services:
+    - docker:24-dind
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin registry.fpf.br
+  script:
+    # Build the Docker image
+    - docker build -t $IMAGE_NAME:$CI_COMMIT_SHORT_SHA .
+    - docker tag $IMAGE_NAME:$CI_COMMIT_SHORT_SHA $IMAGE_NAME:latest
+    
+    # Push images to registry
+    - docker push $IMAGE_NAME:$CI_COMMIT_SHORT_SHA
+    - docker push $IMAGE_NAME:latest
+    
+    # Tag with branch name if not main
+    - |
+      if [ "$CI_COMMIT_BRANCH" != "main" ]; then
+        docker tag $IMAGE_NAME:$CI_COMMIT_SHORT_SHA $IMAGE_NAME:$CI_COMMIT_BRANCH
+        docker push $IMAGE_NAME:$CI_COMMIT_BRANCH
+      fi
+  after_script:
+    - docker logout registry.fpf.br
+  only:
+    - main
+    - develop
+    - tags
+
+deploy-coolify:
+  stage: deploy
+  image: curlimages/curl:latest
+  script:
+    - |
+      if [ -z "$COOLIFY_WEBHOOK_URL" ]; then
+        echo "ERROR: COOLIFY_WEBHOOK_URL is not set"
+        exit 1
+      fi
+      echo "Triggering Coolify deployment..."
+      curl -f -X GET "$COOLIFY_WEBHOOK_URL"
+  only:
+    - main
+  needs:
+    - build-and-push
+
